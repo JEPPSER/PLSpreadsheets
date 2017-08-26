@@ -2,6 +2,8 @@ package com.example.jesper.plspreadsheets
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.example.jesper.plspreadsheets.R.layout
@@ -24,10 +26,14 @@ class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_start)
+
+        // Setting up a list connected to the ListView.
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems)
         listView = findViewById(R.id.listView) as ListView
         (listView as ListView).adapter = adapter
+
         getSpreadsheets()
+        addListListener()
     }
 
     /**
@@ -40,9 +46,25 @@ class StartActivity : AppCompatActivity() {
         val filelist = files.list("spreadsheets")
         var i = 0
         while(i < filelist.size){
-            println(filelist[i])
             listItems.add(filelist[i])
             i++
+        }
+    }
+
+    /**
+     * Creates a Listener for the ListView. It will handle user input
+     * when an item in the ListView is clicked.
+     */
+    private fun addListListener(){
+        (listView as ListView).onItemClickListener = object : AdapterView.OnItemClickListener {
+            override fun onItemClick(parentView: AdapterView<*>, childView: View,
+                                     position: Int, id: Long) {
+                println(listItems.get(position))
+            }
+
+            fun onNothingClick(parentView: AdapterView<*>) {
+
+            }
         }
     }
 }
