@@ -1,12 +1,15 @@
 package com.example.jesper.plspreadsheets
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
 import com.example.jesper.plspreadsheets.R.layout
+import com.example.jesper.plspreadsheets.create.CreateActivity
 import java.util.*
 
 /**
@@ -14,7 +17,7 @@ import java.util.*
  * new spreadsheet or select an already saved spreadsheet to view.
  *
  * @author Jesper Bergstrom
- * @name StartActivity
+ * @name StartActivity.kt
  * @version 0.00.00
  */
 class StartActivity : AppCompatActivity() {
@@ -22,6 +25,7 @@ class StartActivity : AppCompatActivity() {
     private var adapter: ArrayAdapter<String>? = null
     private var listItems = ArrayList<String>()
     private var listView: ListView? = null
+    private var newBtn: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +36,23 @@ class StartActivity : AppCompatActivity() {
         listView = findViewById(R.id.listView) as ListView
         (listView as ListView).adapter = adapter
 
+        // Getting the "new" button.
+        newBtn = findViewById(R.id.newBtn) as Button
+
         getSpreadsheets()
         addListListener()
+        onNewButtonClicked()
+    }
+
+    /**
+     * Adds an onClickListener to the "new" button. When the button is pressed,
+     * A CreateActivity is started.
+     */
+    private fun onNewButtonClicked(){
+        newBtn!!.setOnClickListener(View.OnClickListener {
+            val search = Intent(this@StartActivity, CreateActivity::class.java)
+            startActivity(search)
+        })
     }
 
     /**
@@ -59,11 +78,7 @@ class StartActivity : AppCompatActivity() {
         (listView as ListView).onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(parentView: AdapterView<*>, childView: View,
                                      position: Int, id: Long) {
-                println(listItems.get(position))
-            }
-
-            fun onNothingClick(parentView: AdapterView<*>) {
-
+                println(listItems[position])
             }
         }
     }
