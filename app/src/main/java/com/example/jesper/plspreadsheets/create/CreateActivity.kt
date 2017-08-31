@@ -3,7 +3,9 @@ package com.example.jesper.plspreadsheets.create
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
 
 /**
@@ -18,8 +20,6 @@ class CreateActivity : AppCompatActivity() {
     private var saveBtn: Button? = null
     private var titleText: EditText? = null
     private var weekBtn: Button? = null
-    private var scrollView: ScrollView? = null
-    private var vbox: TableLayout? = null
     private var weekCount = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +29,6 @@ class CreateActivity : AppCompatActivity() {
         saveBtn = findViewById(R.id.saveBtn) as Button
         titleText = findViewById(R.id.titleText) as EditText
         weekBtn = findViewById(R.id.weekBtn) as Button
-        scrollView = findViewById(R.id.scrollView) as ScrollView
-        vbox = findViewById(R.id.vbox) as TableLayout
 
         onSaveButtonClicked()
         onWeekButtonClicked()
@@ -55,8 +53,7 @@ class CreateActivity : AppCompatActivity() {
             println("New week")
             val week = TextView(this)
             week.text = "W.$weekCount"
-            week.textSize = 25F
-            vbox!!.addView(week)
+            week.textSize = 22F
             weekCount++
         }))
     }
