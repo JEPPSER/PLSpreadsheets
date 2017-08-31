@@ -50,8 +50,8 @@ class StartActivity : AppCompatActivity() {
      */
     private fun onNewButtonClicked(){
         newBtn!!.setOnClickListener(View.OnClickListener {
-            val search = Intent(this@StartActivity, CreateActivity::class.java)
-            startActivity(search)
+            val create = Intent(this@StartActivity, CreateActivity::class.java)
+            startActivity(create)
         })
     }
 
