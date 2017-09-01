@@ -14,8 +14,4 @@ class Spreadsheet {
 
     var title = String
     var weeks = ArrayList<Week>()
-
-    init {
-
-    }
 }
