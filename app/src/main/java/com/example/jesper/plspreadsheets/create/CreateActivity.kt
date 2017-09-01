@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ScrollView
 import com.example.jesper.plspreadsheets.R
+import com.example.jesper.plspreadsheets.model.Spreadsheet
+import com.example.jesper.plspreadsheets.model.Week
 
 /**
  * Activity for creating and editing spreadsheets.
@@ -22,9 +24,11 @@ class CreateActivity : AppCompatActivity() {
     private var saveBtn: Button? = null
     private var titleText: EditText? = null
     private var weekBtn: Button? = null
-    private var weekCount = 1
+    private var weekCount = 0
     private var scrollView: ScrollView? = null
     private var gridLayout: GridLayout? = null
+
+    var spreadsheet = Spreadsheet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +60,22 @@ class CreateActivity : AppCompatActivity() {
      */
     private fun onWeekButtonClicked(){
         weekBtn!!.setOnClickListener(View.OnClickListener({
-            val week = Button(this)
-            week.text = "Week $weekCount"
-            val count = weekCount
+
+            var week = Week()
+            week.weekNumber = weekCount + 1
+            spreadsheet.weeks.add(week)
+
+            val weekBtn = Button(this)
+            weekBtn.text = "Week " + (weekCount + 1)
+            val count = weekCount + 1
 
             // Add listener to new week button
-            week.setOnClickListener(View.OnClickListener {
+            weekBtn.setOnClickListener(View.OnClickListener {
                 println(count)
-                val create = Intent(this@CreateActivity, CreateWeekActivity::class.java)
+                var b = Bundle()
+                b.putSerializable("week", week)
+                var create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
+                create.putExtras(b)
                 startActivity(create)
             })
             val delete = Button(this)
@@ -71,10 +83,10 @@ class CreateActivity : AppCompatActivity() {
 
             // Add listener to new delete button
             delete.setOnClickListener(View.OnClickListener {
-                println("delete " + count)
+                println("delete " + count + 1)
             })
-            gridLayout!!.rowCount = weekCount + 1
-            gridLayout!!.addView(week)
+            gridLayout!!.rowCount = weekCount + 2
+            gridLayout!!.addView(weekBtn)
             gridLayout!!.addView(delete)
             weekCount++
         }))
