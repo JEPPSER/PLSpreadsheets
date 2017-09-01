@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets.model
 
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -9,7 +10,8 @@ import java.util.*
  * @name Day.kt
  * @version 0.00.00
  */
-class Day {
+class Day : Serializable{
 
-    var exercises = ArrayList<Exercise>()
+    var exercises: ArrayList<Exercise> ?= null
+    var name: String ?= null
 }
