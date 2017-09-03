@@ -71,10 +71,9 @@ class CreateActivity : AppCompatActivity() {
 
             // Add listener to new week button
             weekBtn.setOnClickListener(View.OnClickListener {
-                println(count)
-                var b = Bundle()
+                val b = Bundle()
                 b.putSerializable("week", week)
-                var create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
+                val create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
                 create.putExtras(b)
                 startActivity(create)
             })

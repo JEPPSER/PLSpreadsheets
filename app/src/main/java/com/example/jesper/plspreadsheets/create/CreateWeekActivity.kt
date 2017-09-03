@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets.create
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View.OnClickListener
@@ -45,6 +46,9 @@ class CreateWeekActivity : AppCompatActivity() {
         weekText!!.text = "Week " + week!!.weekNumber
     }
 
+    /**
+     * Creates all the Day objects for the week and all its components.
+     */
     private fun createDays(){
         var i = 0
         while(i < 7){
@@ -55,7 +59,11 @@ class CreateWeekActivity : AppCompatActivity() {
             btn.text = "+ Exercise"
             btnList.add(btn)
             btn.setOnClickListener(OnClickListener {
-                println(dayNames[btnList.indexOf(btn)])
+                val create = Intent(this@CreateWeekActivity, CreateDayActivity::class.java)
+                val b = Bundle()
+                b.putSerializable("day", day)
+                create.putExtras(b)
+                startActivity(create)
             })
             val dayText = TextView(this)
             dayText.text = dayNames.get(i)
