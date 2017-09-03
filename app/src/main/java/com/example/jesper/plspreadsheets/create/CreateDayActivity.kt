@@ -4,6 +4,8 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
+import android.widget.Button
+import android.widget.GridLayout
 import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
 import com.example.jesper.plspreadsheets.model.Day
@@ -18,7 +20,9 @@ import com.example.jesper.plspreadsheets.model.Day
 class CreateDayActivity : Activity() {
 
     var day: Day ?= null
-    var dayText: TextView?= null
+    var grid: GridLayout ?= null
+    var setBtn: Button?= null
+    var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +38,19 @@ class CreateDayActivity : Activity() {
         val b = this.intent.extras
         day = b.getSerializable("day") as Day
 
-        // Get dayText
-        dayText = findViewById<View>(R.id.dayText) as TextView
-        dayText!!.text = day!!.name
+        grid = findViewById<View>(R.id.grid) as GridLayout
+        setBtn = findViewById<View>(R.id.setBtn) as Button
+
+        onSetButtonClicked()
+    }
+
+    private fun onSetButtonClicked(){
+        setBtn!!.setOnClickListener(View.OnClickListener {
+            count++
+            val text = TextView(this)
+            text.text = count.toString() + ". "
+            text.textSize = 20F
+            grid!!.addView(text)
+        })
     }
 }
