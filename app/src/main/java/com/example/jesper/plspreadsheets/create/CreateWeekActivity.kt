@@ -9,6 +9,7 @@ import android.widget.GridLayout
 import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
 import com.example.jesper.plspreadsheets.model.Day
+import com.example.jesper.plspreadsheets.model.Exercise
 import com.example.jesper.plspreadsheets.model.Week
 import java.util.*
 
@@ -53,6 +54,7 @@ class CreateWeekActivity : AppCompatActivity() {
         var i = 0
         while(i < 7){
             val day = Day()
+            day.exercises = ArrayList<Exercise>()
             day.name = dayNames[i]
             days.add(day)
             val btn = Button(this)

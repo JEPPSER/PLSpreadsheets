@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
@@ -47,10 +48,19 @@ class CreateDayActivity : Activity() {
     private fun onSetButtonClicked(){
         setBtn!!.setOnClickListener(View.OnClickListener {
             count++
+
             val text = TextView(this)
             text.text = count.toString() + ". "
             text.textSize = 20F
             grid!!.addView(text)
+
+            val inReps = EditText(this)
+            grid!!.addView(inReps)
+            inReps.width = 150
+
+            val inWeight = EditText(this)
+            grid!!.addView(inWeight)
+            inWeight.width = 300
         })
     }
 }
