@@ -25,8 +25,9 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     var dayList: GridLayout ?= null
     var btnList: ArrayList<Button> = ArrayList<Button>()
     var exerciseCount = ArrayList<Int>()
-    var intentList = ArrayList<Intent>()
     var saveBtn: Button ?= null
+    var deleteBtns = ArrayList<Button>()
+    var textViewList = ArrayList<TextView>()
 
     var resultString: String = ""
 
@@ -63,7 +64,7 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         val ex = data.extras.getString("ex")
-        val parts = resultString.split("\n")
+        var parts = resultString.split("\n")
         resultString = ""
         var i = 0
         while(i < parts.size){
@@ -76,6 +77,23 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                     }
                     j++
                 }
+                break
+            }
+            i++
+        }
+
+        i = 0
+        while(true){
+            if((dayList!!.getChildAt(i) as TextView).text.equals(dayNames[requestCode])){
+                i+=2
+                // update grid layout
+                var exName = TextView(this) // Exercise name
+                exName.text = ex
+                dayList!!.addView(exName, i)
+                var delete = Button(this) // Delete button
+                delete.text = "delete"
+                dayList!!.addView(delete, i + 1)
+                deleteBtns.add(delete)
                 break
             }
             i++
@@ -104,7 +122,6 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
             val num = i
             btn.setOnClickListener(OnClickListener {
                 val create = Intent(this@CreateWeekActivity, CreateDayActivity::class.java)
-                intentList.add(create)
                 startActivityForResult(create, num)
             })
             val dayText = TextView(this)
