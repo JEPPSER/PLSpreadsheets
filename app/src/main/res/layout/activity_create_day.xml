@@ -87,6 +87,7 @@
         android:layout_below="@+id/inputName"
         android:layout_toRightOf="@+id/nameText"
         android:layout_toEndOf="@+id/nameText"
-        android:layout_marginLeft="-20dp" />
+        android:layout_marginLeft="-20dp"
+        android:inputType="text" />
 
 </RelativeLayout>

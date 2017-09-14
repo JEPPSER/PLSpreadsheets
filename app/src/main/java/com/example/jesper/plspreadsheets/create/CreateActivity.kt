@@ -9,8 +9,6 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ScrollView
 import com.example.jesper.plspreadsheets.R
-import com.example.jesper.plspreadsheets.model.Spreadsheet
-import com.example.jesper.plspreadsheets.model.Week
 
 /**
  * Activity for creating and editing spreadsheets.
@@ -28,7 +26,7 @@ class CreateActivity : AppCompatActivity() {
     private var scrollView: ScrollView? = null
     private var gridLayout: GridLayout? = null
 
-    var spreadsheet = Spreadsheet()
+    var resultString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +42,37 @@ class CreateActivity : AppCompatActivity() {
         onWeekButtonClicked()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val week = data.extras.getString("week")
+        val parts = resultString.split("\n")
+        resultString = ""
+        var i = 0
+        while(i < parts.size){
+            if(parts[i].equals("[Week " + (requestCode + 1) + "]")){
+                var j = 0
+                while(j < parts.size){
+                    resultString += parts[j] + "\n"
+                    if(j == i){
+                        resultString += week
+                    }
+                    j++
+                }
+                break
+            }
+            i++
+        }
+        println(resultString)
+    }
+
+
     /**
      * Adds listener to "save" button. When the button is pressed,
      * a new spreadsheet should get saved in the spreadsheets folder.
      */
     private fun onSaveButtonClicked(){
         saveBtn!!.setOnClickListener(View.OnClickListener {
+
             println(titleText!!.text)
         })
     }
@@ -61,21 +84,17 @@ class CreateActivity : AppCompatActivity() {
     private fun onWeekButtonClicked(){
         weekBtn!!.setOnClickListener(View.OnClickListener({
 
-            var week = Week()
-            week.weekNumber = weekCount + 1
-            spreadsheet.weeks.add(week)
-
             val weekBtn = Button(this)
             weekBtn.text = "Week " + (weekCount + 1)
             val count = weekCount + 1
 
+            resultString += "[" + weekBtn.text.toString() + "]" + "\n"
+
             // Add listener to new week button
             weekBtn.setOnClickListener(View.OnClickListener {
-                val b = Bundle()
-                b.putSerializable("week", week)
                 val create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
-                create.putExtras(b)
-                startActivity(create)
+                create.putExtra("week", weekBtn.text.toString())
+                startActivityForResult(create, count - 1)
             })
             val delete = Button(this)
             delete.text = "Delete"

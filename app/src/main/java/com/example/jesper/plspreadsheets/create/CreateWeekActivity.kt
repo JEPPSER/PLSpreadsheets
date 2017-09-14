@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets.create
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,9 +9,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
-import com.example.jesper.plspreadsheets.model.Day
-import com.example.jesper.plspreadsheets.model.Exercise
-import com.example.jesper.plspreadsheets.model.Week
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -20,13 +19,16 @@ import java.util.*
  * @name CreateWeekActivity.kt
  * @version 0.00.00
  */
-class CreateWeekActivity : AppCompatActivity() {
+class CreateWeekActivity : AppCompatActivity(), Serializable {
 
-    var week: Week ?= null
     var weekText: TextView ?= null
     var dayList: GridLayout ?= null
     var btnList: ArrayList<Button> = ArrayList<Button>()
-    var days = ArrayList<Day>()
+    var exerciseCount = ArrayList<Int>()
+    var intentList = ArrayList<Intent>()
+    var saveBtn: Button ?= null
+
+    var resultString: String = ""
 
     val dayNames = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
@@ -34,9 +36,18 @@ class CreateWeekActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_week)
 
+        var i = 0
+        while(i < dayNames.size){
+            resultString += dayNames[i] + "\n"
+            i++
+        }
+        //println(resultString)
+
         // Get the week that was clicked
-        val b = this.intent.extras
-        week = b.getSerializable("week") as Week
+        val week = getIntent().extras.getString("week")
+
+        // Get save button
+        saveBtn = findViewById(R.id.saveBtn) as Button
 
         // Get Grid
         dayList = findViewById(R.id.dayList) as GridLayout
@@ -44,7 +55,40 @@ class CreateWeekActivity : AppCompatActivity() {
 
         // Get the week text
         weekText = findViewById(R.id.weekText) as TextView
-        weekText!!.text = "Week " + week!!.weekNumber
+        weekText!!.text = week
+
+        onSaveButtonClicked()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val ex = data.extras.getString("ex")
+        val parts = resultString.split("\n")
+        resultString = ""
+        var i = 0
+        while(i < parts.size){
+            if(parts[i].equals(dayNames[requestCode])){
+                var j = 0
+                while(j < parts.size){
+                    resultString += parts[j] + "\n"
+                    if(j == i){
+                        resultString += ex
+                    }
+                    j++
+                }
+                break
+            }
+            i++
+        }
+    }
+
+    private fun onSaveButtonClicked(){
+        saveBtn!!.setOnClickListener(OnClickListener {
+            val resultIntent = Intent()
+            resultIntent.putExtra("week", resultString)
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+        })
     }
 
     /**
@@ -53,19 +97,15 @@ class CreateWeekActivity : AppCompatActivity() {
     private fun createDays(){
         var i = 0
         while(i < 7){
-            val day = Day()
-            day.exercises = ArrayList<Exercise>()
-            day.name = dayNames[i]
-            days.add(day)
+            exerciseCount.add(0)
             val btn = Button(this)
             btn.text = "+ Exercise"
             btnList.add(btn)
+            val num = i
             btn.setOnClickListener(OnClickListener {
                 val create = Intent(this@CreateWeekActivity, CreateDayActivity::class.java)
-                val b = Bundle()
-                b.putSerializable("day", day)
-                create.putExtras(b)
-                startActivity(create)
+                intentList.add(create)
+                startActivityForResult(create, num)
             })
             val dayText = TextView(this)
             dayText.text = dayNames.get(i)

@@ -1,7 +1,9 @@
 package com.example.jesper.plspreadsheets.create
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.Button
@@ -9,7 +11,7 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
-import com.example.jesper.plspreadsheets.model.Day
+import java.util.*
 
 /**
  * Popup window for creating a Day.
@@ -20,29 +22,49 @@ import com.example.jesper.plspreadsheets.model.Day
  */
 class CreateDayActivity : Activity() {
 
-    var day: Day ?= null
     var grid: GridLayout ?= null
     var setBtn: Button?= null
+    var doneBtn: Button ?= null
     var count: Int = 0
+    var repList = ArrayList<EditText>()
+    var weightList = ArrayList<EditText>()
+    var inputName: EditText ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_day)
-
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         val width = dm.widthPixels
         val height = dm.heightPixels
-        getWindow().setLayout((width * 0.8).toInt(), (height * 0.8).toInt())
+        window.setLayout((width * 0.8).toInt(), (height * 0.8).toInt())
 
         // Get the day that was clicked
-        val b = this.intent.extras
-        day = b.getSerializable("day") as Day
 
         grid = findViewById<View>(R.id.grid) as GridLayout
         setBtn = findViewById<View>(R.id.setBtn) as Button
+        doneBtn = findViewById<View>(R.id.doneBtn) as Button
+        inputName = findViewById<View>(R.id.inputName) as EditText
 
         onSetButtonClicked()
+        onDoneButtonClicked()
+    }
+
+    private fun onDoneButtonClicked(){
+        doneBtn!!.setOnClickListener(View.OnClickListener {
+            var i: Int = 0
+            var result = "-" + inputName!!.text.toString() + "\n"
+            // Create sets
+            while(i < repList.size){
+                result += repList[i].text.toString() + "x" + weightList[i].text.toString() + "\n"
+                i++
+            }
+            //println(result)
+            val resultIntent = Intent()
+            resultIntent.putExtra("ex", result)
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
+        })
     }
 
     private fun onSetButtonClicked(){
@@ -55,12 +77,15 @@ class CreateDayActivity : Activity() {
             grid!!.addView(text)
 
             val inReps = EditText(this)
+            inReps.inputType = InputType.TYPE_CLASS_NUMBER
             grid!!.addView(inReps)
             inReps.width = 150
+            repList.add(inReps)
 
             val inWeight = EditText(this)
             grid!!.addView(inWeight)
             inWeight.width = 300
+            weightList.add(inWeight)
         })
     }
 }
