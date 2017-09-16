@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ScrollView
 import com.example.jesper.plspreadsheets.R
+import java.util.*
 
 /**
  * Activity for creating and editing spreadsheets.
@@ -26,7 +27,9 @@ class CreateActivity : AppCompatActivity() {
     private var scrollView: ScrollView? = null
     private var gridLayout: GridLayout? = null
 
-    var resultString: String = ""
+    val dayNames = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+    var resultStrings = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,24 +48,8 @@ class CreateActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         val week = data.extras.getString("week")
-        val parts = resultString.split("\n")
-        resultString = ""
-        var i = 0
-        while(i < parts.size){
-            if(parts[i].equals("[Week " + (requestCode + 1) + "]")){
-                var j = 0
-                while(j < parts.size){
-                    resultString += parts[j] + "\n"
-                    if(j == i){
-                        resultString += week
-                    }
-                    j++
-                }
-                break
-            }
-            i++
-        }
-        println(resultString)
+        resultStrings[requestCode] = week
+        println(resultStrings.get(requestCode))
     }
 
 
@@ -88,12 +75,18 @@ class CreateActivity : AppCompatActivity() {
             weekBtn.text = "Week " + (weekCount + 1)
             val count = weekCount + 1
 
-            resultString += "[" + weekBtn.text.toString() + "]" + "\n"
+            var str = "[" + weekBtn.text.toString() + "]" + "\n"
+            var i = 0
+            while(i < 7){
+                str += dayNames[i] + "\n"
+                i++
+            }
+            resultStrings.add(str)
 
             // Add listener to new week button
             weekBtn.setOnClickListener(View.OnClickListener {
                 val create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
-                create.putExtra("week", weekBtn.text.toString())
+                create.putExtra("week", resultStrings[count - 1])
                 startActivityForResult(create, count - 1)
             })
             val delete = Button(this)

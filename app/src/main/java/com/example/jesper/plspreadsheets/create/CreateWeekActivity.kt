@@ -24,7 +24,6 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     var weekText: TextView ?= null
     var dayList: GridLayout ?= null
     var btnList: ArrayList<Button> = ArrayList<Button>()
-    var exerciseCount = ArrayList<Int>()
     var saveBtn: Button ?= null
     var deleteBtns = ArrayList<Button>()
     var textViewList = ArrayList<TextView>()
@@ -37,15 +36,8 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_week)
 
-        var i = 0
-        while(i < dayNames.size){
-            resultString += dayNames[i] + "\n"
-            i++
-        }
-        //println(resultString)
-
-        // Get the week that was clicked
-        val week = getIntent().extras.getString("week")
+        resultString = intent.extras.getString("week")
+        println(resultString)
 
         // Get save button
         saveBtn = findViewById(R.id.saveBtn) as Button
@@ -56,7 +48,7 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
 
         // Get the week text
         weekText = findViewById(R.id.weekText) as TextView
-        weekText!!.text = week
+        //weekText!!.text = week
 
         onSaveButtonClicked()
     }
@@ -64,11 +56,11 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
         val ex = data.extras.getString("ex")
-        var parts = resultString.split("\n")
+        val parts = resultString.split("\n")
         resultString = ""
         var i = 0
         while(i < parts.size){
-            if(parts[i].equals(dayNames[requestCode])){
+            if(parts[i].equals(dayNames[requestCode - 1])){
                 var j = 0
                 while(j < parts.size){
                     resultString += parts[j] + "\n"
@@ -82,9 +74,11 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
             i++
         }
 
+        println(resultString)
+
         i = 0
         while(true){
-            if((dayList!!.getChildAt(i) as TextView).text.equals(dayNames[requestCode])){
+            if((dayList!!.getChildAt(i) as TextView).text.equals(dayNames[requestCode - 1])){
                 i+=2
                 // update grid layout
                 var exName = TextView(this) // Exercise name
@@ -113,22 +107,51 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
      * Creates all the Day objects for the week and all its components.
      */
     private fun createDays(){
-        var i = 0
-        while(i < 7){
-            exerciseCount.add(0)
-            val btn = Button(this)
-            btn.text = "+ Exercise"
-            btnList.add(btn)
-            val num = i
-            btn.setOnClickListener(OnClickListener {
-                val create = Intent(this@CreateWeekActivity, CreateDayActivity::class.java)
-                startActivityForResult(create, num)
-            })
-            val dayText = TextView(this)
-            dayText.text = dayNames.get(i)
-            dayList!!.addView(dayText)
-            dayList!!.addView(btn)
-            i++
+        var i = 1
+        var dayIndex = 0
+        val parts = resultString.split("\n")
+        while(i < parts.size){
+            if(dayIndex < 7 && parts[i].equals(dayNames[dayIndex])){
+                val btn = Button(this)
+                btn.text = "+ Exercise"
+                btnList.add(btn)
+                val num = dayIndex + 1
+                btn.setOnClickListener(OnClickListener {
+                    val create = Intent(this@CreateWeekActivity, CreateDayActivity::class.java)
+                    startActivityForResult(create, num)
+                })
+                val dayText = TextView(this)
+                dayText.text = dayNames.get(dayIndex)
+                dayList!!.addView(dayText)
+                dayList!!.addView(btn)
+                dayIndex++
+                i++
+            } else {
+                val lastDay = dayIndex - 1
+                var result = ""
+                var count = 0
+                while(i < parts.size){
+                    if(dayIndex == 7 || !parts[i].equals(dayNames[lastDay + 1])){
+                        if(count != 0 && parts[i].startsWith("-") || i == parts.size - 1) {
+                            if(result != ""){
+                                val ex = TextView(this)
+                                ex.text = result
+                                dayList!!.addView(ex)
+                                val btn = Button(this)
+                                btn.text = "delete"
+                                dayList!!.addView(btn)
+                            }
+                            count = 0
+                            result = ""
+                        }
+                        result += parts[i] + "\n"
+                        count++
+                        i++
+                    } else {
+                        break
+                    }
+                }
+            }
         }
     }
 }
