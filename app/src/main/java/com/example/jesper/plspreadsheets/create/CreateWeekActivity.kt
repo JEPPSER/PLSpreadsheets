@@ -25,7 +25,6 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     var dayList: GridLayout ?= null
     var btnList: ArrayList<Button> = ArrayList<Button>()
     var saveBtn: Button ?= null
-    var deleteBtns = ArrayList<Button>()
     var textViewList = ArrayList<TextView>()
 
     var resultString: String = ""
@@ -85,7 +84,7 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                 exName.text = ex
                 dayList!!.addView(exName, i)
                 var delete = Button(this) // Delete button
-                delete.text = ex
+                delete.text = "delete"
                 dayList!!.addView(delete, i + 1)
 
                 var j = 1
@@ -98,16 +97,21 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                     }
                     j++
                 }
-                deleteBtns.add(counter, delete)
 
                 // Delete Button Listener
-                delete.setOnClickListener(OnClickListener {
-                    println(deleteBtns.indexOf(delete)) // Fix this!!!!!!!!
-                })
+                deleteButtonListener(delete, ex, exName)
                 break
             }
             i++
         }
+    }
+
+    private fun deleteButtonListener(delete : Button, ex : String, exName : TextView){
+        delete.setOnClickListener(OnClickListener {
+            resultString = resultString.replace(ex, "")
+            dayList!!.removeView(delete)
+            dayList!!.removeView(exName)
+        })
     }
 
     private fun onSaveButtonClicked(){
@@ -156,14 +160,11 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                                 ex.text = result
                                 dayList!!.addView(ex)
                                 val btn = Button(this)
-                                btn.text = result
+                                btn.text = "delete"
                                 dayList!!.addView(btn)
-                                deleteBtns.add(btn)
 
                                 // Delete Button Listener
-                                btn.setOnClickListener(OnClickListener {
-                                    println(deleteBtns.indexOf(btn))
-                                })
+                                deleteButtonListener(btn, result, ex)
                             }
                             count = 0
                             result = ""
@@ -180,14 +181,11 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                             ex.text = result
                             dayList!!.addView(ex)
                             val btn = Button(this)
-                            btn.text = result
+                            btn.text = "delete"
                             dayList!!.addView(btn)
-                            deleteBtns.add(btn)
 
                             // Delete Button Listener
-                            btn.setOnClickListener(OnClickListener {
-                                println(deleteBtns.indexOf(btn))
-                            })
+                            deleteButtonListener(btn, result, ex)
                         }
                         break
                     } else {
