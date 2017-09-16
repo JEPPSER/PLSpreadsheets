@@ -49,7 +49,6 @@ class CreateActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         val week = data.extras.getString("week")
         resultStrings[requestCode] = week
-        println(resultStrings.get(requestCode))
     }
 
 

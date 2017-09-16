@@ -37,7 +37,6 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
         setContentView(R.layout.activity_create_week)
 
         resultString = intent.extras.getString("week")
-        println(resultString)
 
         // Get save button
         saveBtn = findViewById(R.id.saveBtn) as Button
@@ -48,14 +47,14 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
 
         // Get the week text
         weekText = findViewById(R.id.weekText) as TextView
-        //weekText!!.text = week
+        weekText!!.text = resultString.split("\n")[0]
 
         onSaveButtonClicked()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
-        val ex = data.extras.getString("ex")
+        var ex = data.extras.getString("ex")
         val parts = resultString.split("\n")
         resultString = ""
         var i = 0
@@ -74,13 +73,14 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
             i++
         }
 
-        println(resultString)
-
         i = 0
         while(true){
             if((dayList!!.getChildAt(i) as TextView).text.equals(dayNames[requestCode - 1])){
                 i+=2
                 // update grid layout
+                if(ex.get(ex.length - 1) == '\n'){
+                    ex = ex.substring(0, ex.length - 1)
+                }
                 var exName = TextView(this) // Exercise name
                 exName.text = ex
                 dayList!!.addView(exName, i)
@@ -88,6 +88,9 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                 delete.text = "delete"
                 dayList!!.addView(delete, i + 1)
                 deleteBtns.add(delete)
+                delete.setOnClickListener(OnClickListener {
+                    println(ex)
+                })
                 break
             }
             i++
@@ -127,19 +130,24 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                 dayIndex++
                 i++
             } else {
-                val lastDay = dayIndex - 1
                 var result = ""
                 var count = 0
                 while(i < parts.size){
-                    if(dayIndex == 7 || !parts[i].equals(dayNames[lastDay + 1])){
+                    if(dayIndex == 7 || !parts[i].equals(dayNames[dayIndex])){
                         if(count != 0 && parts[i].startsWith("-") || i == parts.size - 1) {
-                            if(result != ""){
+                            if(!result.equals("") && !result.get(0).equals('\n')){
+                                if(result.get(result.length - 1) == '\n'){
+                                    result = result.substring(0, result.length - 1)
+                                }
                                 val ex = TextView(this)
                                 ex.text = result
                                 dayList!!.addView(ex)
                                 val btn = Button(this)
                                 btn.text = "delete"
                                 dayList!!.addView(btn)
+                                btn.setOnClickListener(OnClickListener {
+                                    println(result)
+                                })
                             }
                             count = 0
                             result = ""
@@ -147,6 +155,22 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                         result += parts[i] + "\n"
                         count++
                         i++
+                    } else if (parts[i].equals(dayNames[dayIndex])){
+                        if(!result.equals("") && !result.get(0).equals('\n')){
+                            if(result.get(result.length - 1) == '\n'){
+                                result = result.substring(0, result.length - 1)
+                            }
+                            val ex = TextView(this)
+                            ex.text = result
+                            dayList!!.addView(ex)
+                            val btn = Button(this)
+                            btn.text = "delete"
+                            dayList!!.addView(btn)
+                            btn.setOnClickListener(OnClickListener {
+                                println(result)
+                            })
+                        }
+                        break
                     } else {
                         break
                     }
