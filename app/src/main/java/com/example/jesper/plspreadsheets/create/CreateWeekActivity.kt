@@ -85,11 +85,24 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                 exName.text = ex
                 dayList!!.addView(exName, i)
                 var delete = Button(this) // Delete button
-                delete.text = "delete"
+                delete.text = ex
                 dayList!!.addView(delete, i + 1)
-                deleteBtns.add(delete)
+
+                var j = 1
+                var counter = 0
+                val temp = resultString.split("\n")
+                // while loop for counting "-"
+                while(temp[j] != dayNames[requestCode - 1]){
+                    if(temp[j].startsWith("-")){
+                        counter++
+                    }
+                    j++
+                }
+                deleteBtns.add(counter, delete)
+
+                // Delete Button Listener
                 delete.setOnClickListener(OnClickListener {
-                    println(ex)
+                    println(deleteBtns.indexOf(delete)) // Fix this!!!!!!!!
                 })
                 break
             }
@@ -143,10 +156,13 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                                 ex.text = result
                                 dayList!!.addView(ex)
                                 val btn = Button(this)
-                                btn.text = "delete"
+                                btn.text = result
                                 dayList!!.addView(btn)
+                                deleteBtns.add(btn)
+
+                                // Delete Button Listener
                                 btn.setOnClickListener(OnClickListener {
-                                    println(result)
+                                    println(deleteBtns.indexOf(btn))
                                 })
                             }
                             count = 0
@@ -164,10 +180,13 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
                             ex.text = result
                             dayList!!.addView(ex)
                             val btn = Button(this)
-                            btn.text = "delete"
+                            btn.text = result
                             dayList!!.addView(btn)
+                            deleteBtns.add(btn)
+
+                            // Delete Button Listener
                             btn.setOnClickListener(OnClickListener {
-                                println(result)
+                                println(deleteBtns.indexOf(btn))
                             })
                         }
                         break
