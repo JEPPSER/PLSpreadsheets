@@ -23,7 +23,6 @@ class CreateActivity : AppCompatActivity() {
     private var saveBtn: Button? = null
     private var titleText: EditText? = null
     private var weekBtn: Button? = null
-    private var weekCount = 0
     private var scrollView: ScrollView? = null
     private var gridLayout: GridLayout? = null
 
@@ -71,8 +70,11 @@ class CreateActivity : AppCompatActivity() {
         weekBtn!!.setOnClickListener(View.OnClickListener({
 
             val weekBtn = Button(this)
-            weekBtn.text = "Week " + (weekCount + 1)
-            val count = weekCount + 1
+            weekBtn.text = "Week " + (resultStrings.size + 1)
+            val count = resultStrings.size + 1
+
+            val delete = Button(this)
+            delete.text = "Delete"
 
             var str = "[" + weekBtn.text.toString() + "]" + "\n"
             var i = 0
@@ -81,24 +83,36 @@ class CreateActivity : AppCompatActivity() {
                 i++
             }
             resultStrings.add(str)
+            gridLayout!!.addView(weekBtn)
+            gridLayout!!.addView(delete)
 
             // Add listener to new week button
             weekBtn.setOnClickListener(View.OnClickListener {
                 val create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
-                create.putExtra("week", resultStrings[count - 1])
-                startActivityForResult(create, count - 1)
+                create.putExtra("week", resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
+                startActivityForResult(create, gridLayout!!.indexOfChild(weekBtn) / 2)
             })
-            val delete = Button(this)
-            delete.text = "Delete"
 
             // Add listener to new delete button
             delete.setOnClickListener(View.OnClickListener {
-                println("delete " + count + 1)
+                println(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
+                resultStrings.remove(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
+                gridLayout!!.removeView(delete)
+                gridLayout!!.removeView(weekBtn)
+
+                var j = 0
+                while(j < resultStrings.size){
+                    resultStrings[j] = "[Week " + (j + 1) + resultStrings[j].substring(7)
+                    (gridLayout!!.getChildAt(j * 2) as Button).text = "Week " + (j + 1)
+                    j++
+                }
             })
-            gridLayout!!.rowCount = weekCount + 2
-            gridLayout!!.addView(weekBtn)
-            gridLayout!!.addView(delete)
-            weekCount++
+
+            var j = 0
+            while(j < resultStrings.size){
+                (gridLayout!!.getChildAt(j * 2) as Button).text = "Week " + (j + 1)
+                j++
+            }
         }))
     }
 }
