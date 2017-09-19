@@ -3,6 +3,7 @@ package com.example.jesper.plspreadsheets.create
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.View
@@ -52,19 +53,55 @@ class CreateDayActivity : Activity() {
 
     private fun onDoneButtonClicked(){
         doneBtn!!.setOnClickListener(View.OnClickListener {
-            var i: Int = 0
-            var result = "-" + inputName!!.text.toString() + "\n"
-            // Create sets
-            while(i < repList.size){
-                result += repList[i].text.toString() + "x" + weightList[i].text.toString() + "\n"
-                i++
+            if(inputName!!.text.toString() == ""){
+                alert("No exercise name has been given.")
+            } else {
+                var isFilled = true
+                var i = 0
+                while(i < repList.size){
+                    if(repList[i].text.toString() == ""){
+                        isFilled = false
+                    }
+                    if(weightList[i].text.toString() == ""){
+                        isFilled = false
+                    }
+                    i++
+                }
+                if(!isFilled){
+                    alert("All fields are not filled")
+                } else {
+                    addExercise()
+                }
             }
-            //println(result)
-            val resultIntent = Intent()
-            resultIntent.putExtra("ex", result)
-            setResult(Activity.RESULT_OK, resultIntent)
-            finish()
         })
+    }
+
+    private fun addExercise(){
+        var i: Int = 0
+        var result = "-" + inputName!!.text.toString() + "\n"
+        // Create sets
+        while(i < repList.size){
+            result += repList[i].text.toString() + "x" + weightList[i].text.toString() + "\n"
+            i++
+        }
+        //println(result)
+        val resultIntent = Intent()
+        resultIntent.putExtra("ex", result)
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
+
+    private fun alert(message : String){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage(message)
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Ok"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
     }
 
     private fun onSetButtonClicked(){

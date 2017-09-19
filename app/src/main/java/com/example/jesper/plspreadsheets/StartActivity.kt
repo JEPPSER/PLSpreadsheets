@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ListView
 import com.example.jesper.plspreadsheets.R.layout
 import com.example.jesper.plspreadsheets.create.CreateActivity
+import java.io.File
 import java.util.*
 
 /**
@@ -30,6 +31,12 @@ class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_start)
+
+        val file = this.filesDir
+        val dir = File(file.absolutePath + "/spreadsheets")
+        if(!dir.exists()){
+            dir.mkdirs()
+        }
 
         // Setting up a list connected to the ListView.
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems)

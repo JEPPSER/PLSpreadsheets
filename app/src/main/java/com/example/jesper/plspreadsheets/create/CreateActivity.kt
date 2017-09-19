@@ -2,6 +2,7 @@ package com.example.jesper.plspreadsheets.create
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
@@ -9,6 +10,9 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ScrollView
 import com.example.jesper.plspreadsheets.R
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 import java.util.*
 
 /**
@@ -57,9 +61,71 @@ class CreateActivity : AppCompatActivity() {
      */
     private fun onSaveButtonClicked(){
         saveBtn!!.setOnClickListener(View.OnClickListener {
+            val file = this.filesDir
+            val dir = File(file.absolutePath + "/spreadsheets")
 
-            println(titleText!!.text)
+            if(titleText!!.text.toString() == ""){
+                alertTitle("No title has been given.")
+            } else if(dir.listFiles().contains(File(dir.absolutePath + File.separator + titleText!!.text.toString() + ".spr"))){
+                alertTitle("File with this title already exists.")
+            } else {
+                val bufferedWriter = BufferedWriter(FileWriter(File(dir.absolutePath + File.separator + titleText!!.text.toString() + ".spr")))
+                var result = ""
+                var i = 0
+                while(i < resultStrings.size){
+                    result += resultStrings[i]
+                    i++
+                }
+                bufferedWriter.write(result)
+                bufferedWriter.close()
+            }
         })
+    }
+
+    private fun alertTitle(message : String){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage(message)
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Ok"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
+    private fun alertWeek(delete : Button, weekBtn : Button){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage("Do you want to delete this week?")
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Yes"
+        ) { dialog, id ->
+            deleteWeek(delete, weekBtn)
+            dialog.cancel() }
+
+        builder1.setNegativeButton(
+                "No"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
+    private fun deleteWeek(delete : Button, weekBtn : Button){
+        println(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
+        resultStrings.remove(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
+        gridLayout!!.removeView(delete)
+        gridLayout!!.removeView(weekBtn)
+
+        var j = 0
+        while(j < resultStrings.size){
+            resultStrings[j] = "[Week " + (j + 1) + resultStrings[j].substring(7)
+            (gridLayout!!.getChildAt(j * 2) as Button).text = "Week " + (j + 1)
+            j++
+        }
     }
 
     /**
@@ -95,17 +161,7 @@ class CreateActivity : AppCompatActivity() {
 
             // Add listener to new delete button
             delete.setOnClickListener(View.OnClickListener {
-                println(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
-                resultStrings.remove(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
-                gridLayout!!.removeView(delete)
-                gridLayout!!.removeView(weekBtn)
-
-                var j = 0
-                while(j < resultStrings.size){
-                    resultStrings[j] = "[Week " + (j + 1) + resultStrings[j].substring(7)
-                    (gridLayout!!.getChildAt(j * 2) as Button).text = "Week " + (j + 1)
-                    j++
-                }
+                alertWeek(delete, weekBtn)
             })
 
             var j = 0

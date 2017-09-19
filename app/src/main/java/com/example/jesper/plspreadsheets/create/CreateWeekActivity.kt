@@ -3,6 +3,7 @@ package com.example.jesper.plspreadsheets.create
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View.OnClickListener
 import android.widget.Button
@@ -108,10 +109,33 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
 
     private fun deleteButtonListener(delete : Button, ex : String, exName : TextView){
         delete.setOnClickListener(OnClickListener {
-            resultString = resultString.replace(ex, "")
-            dayList!!.removeView(delete)
-            dayList!!.removeView(exName)
+            alertWeek(delete, ex, exName)
         })
+    }
+
+    private fun alertWeek(delete : Button, ex : String, exName : TextView){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage("Do you want to delete this exercise?")
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Yes"
+        ) { dialog, id ->
+            deleteExercise(delete, ex, exName)
+            dialog.cancel() }
+
+        builder1.setNegativeButton(
+                "No"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
+    private fun deleteExercise(delete : Button, ex : String, exName : TextView){
+        resultString = resultString.replace(ex, "")
+        dayList!!.removeView(delete)
+        dayList!!.removeView(exName)
     }
 
     private fun onSaveButtonClicked(){
