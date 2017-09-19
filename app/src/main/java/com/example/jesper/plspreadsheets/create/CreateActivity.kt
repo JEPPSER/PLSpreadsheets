@@ -78,6 +78,7 @@ class CreateActivity : AppCompatActivity() {
                 }
                 bufferedWriter.write(result)
                 bufferedWriter.close()
+                finish()
             }
         })
     }

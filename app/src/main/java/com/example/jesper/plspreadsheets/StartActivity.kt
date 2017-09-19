@@ -2,6 +2,7 @@ package com.example.jesper.plspreadsheets
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
@@ -25,6 +26,7 @@ class StartActivity : AppCompatActivity() {
 
     private var adapter: ArrayAdapter<String>? = null
     private var listItems = ArrayList<String>()
+    private var fileList = ArrayList<File>()
     private var listView: ListView? = null
     private var newBtn: Button? = null
 
@@ -49,6 +51,19 @@ class StartActivity : AppCompatActivity() {
         getSpreadsheets()
         addListListener()
         onNewButtonClicked()
+        updateList()
+    }
+
+    private fun updateList(){
+        val handler = Handler()
+        val r = object : Runnable {
+            override fun run() {
+                getSpreadsheets()
+                (listView as ListView).adapter = adapter
+                handler.postDelayed(this, 1000)
+            }
+        }
+        handler.postDelayed(r, 1000)
     }
 
     /**
@@ -68,11 +83,12 @@ class StartActivity : AppCompatActivity() {
      */
     private fun getSpreadsheets(){
         listItems.clear()
-        val files = assets
-        val filelist = files.list("spreadsheets")
+        fileList.clear()
+        val files = File(this.filesDir.absolutePath + File.separator + "spreadsheets").listFiles()
         var i = 0
-        while(i < filelist.size){
-            listItems.add(filelist[i])
+        while(i < files.size){
+            listItems.add(files[i].name)
+            fileList.add(files[i])
             i++
         }
     }
@@ -85,7 +101,12 @@ class StartActivity : AppCompatActivity() {
         (listView as ListView).onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(parentView: AdapterView<*>, childView: View,
                                      position: Int, id: Long) {
-                println(listItems[position])
+                var result = ""
+                val scan = Scanner(fileList[position])
+                while(scan.hasNextLine()){
+                    result += scan.nextLine() + "\n"
+                }
+                println(result)
             }
         }
     }
