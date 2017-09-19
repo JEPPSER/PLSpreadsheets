@@ -2,7 +2,6 @@ package com.example.jesper.plspreadsheets
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
@@ -51,19 +50,6 @@ class StartActivity : AppCompatActivity() {
         getSpreadsheets()
         addListListener()
         onNewButtonClicked()
-        updateList()
-    }
-
-    private fun updateList(){
-        val handler = Handler()
-        val r = object : Runnable {
-            override fun run() {
-                getSpreadsheets()
-                (listView as ListView).adapter = adapter
-                handler.postDelayed(this, 1000)
-            }
-        }
-        handler.postDelayed(r, 1000)
     }
 
     /**
@@ -73,8 +59,16 @@ class StartActivity : AppCompatActivity() {
     private fun onNewButtonClicked(){
         newBtn!!.setOnClickListener(View.OnClickListener {
             val create = Intent(this@StartActivity, CreateActivity::class.java)
-            startActivity(create)
+            startActivityForResult(create, 0)
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val name = data.extras.getString("name")
+        fileList.add(File(this.filesDir.absolutePath + File.separator + "spreadsheets" + File.separator + name))
+        listItems.add(name)
+        (listView as ListView).adapter = adapter
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets.create
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -78,6 +79,9 @@ class CreateActivity : AppCompatActivity() {
                 }
                 bufferedWriter.write(result)
                 bufferedWriter.close()
+                val resultIntent = Intent()
+                resultIntent.putExtra("name", titleText!!.text.toString() + ".spr")
+                setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             }
         })
