@@ -3,4 +3,14 @@
     <string name="new_string">new</string>
     <string name="save_string">save</string>
     <string name="title_string">Title</string>
+    <string name="_1_week">+1 week</string>
+    <string name="_2_week">-1 week</string>
+    <string name="monday">Monday</string>
+    <string name="exercise">+ Exercise</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="done">done</string>
+    <string name="set">+set</string>
+    <string name="reps">Reps</string>
+    <string name="weight">Weight</string>
+    <string name="save">save</string>
 </resources>
