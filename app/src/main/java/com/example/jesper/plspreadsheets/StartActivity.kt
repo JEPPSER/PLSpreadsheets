@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.ContextMenu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -44,6 +46,7 @@ class StartActivity : AppCompatActivity() {
         adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems)
         listView = findViewById(R.id.listView) as ListView
         (listView as ListView).adapter = adapter
+        registerForContextMenu(listView);
 
         // Getting the "new" button.
         newBtn = findViewById(R.id.newBtn) as Button
@@ -107,6 +110,24 @@ class StartActivity : AppCompatActivity() {
                 println(result)
             }
         }
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View,
+                            menuInfo: ContextMenu.ContextMenuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menu.add("delete")
+        menu.add("edit")
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        super.onContextItemSelected(item)
+        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        if(item.title == "delete"){
+            println("delete " + listItems.get(info.id.toInt()))
+        } else if(item.title == "edit"){
+            println("edit " + listItems.get(info.id.toInt()))
+        }
+        return true
     }
 }
 

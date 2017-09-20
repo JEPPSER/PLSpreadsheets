@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.TextView
 import com.example.jesper.plspreadsheets.R
-import java.io.Serializable
 import java.util.*
 
 /**
@@ -21,7 +20,7 @@ import java.util.*
  * @name CreateWeekActivity.kt
  * @version 0.00.00
  */
-class CreateWeekActivity : AppCompatActivity(), Serializable {
+class CreateWeekActivity : AppCompatActivity() {
 
     var weekText: TextView ?= null
     var dayList: GridLayout ?= null
