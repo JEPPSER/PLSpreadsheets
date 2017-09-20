@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -59,16 +60,19 @@ class StartActivity : AppCompatActivity() {
     private fun onNewButtonClicked(){
         newBtn!!.setOnClickListener(View.OnClickListener {
             val create = Intent(this@StartActivity, CreateActivity::class.java)
-            startActivityForResult(create, 0)
+            startActivityForResult(create, 1)
         })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val name = data.extras.getString("name")
-        fileList.add(File(this.filesDir.absolutePath + File.separator + "spreadsheets" + File.separator + name))
-        listItems.add(name)
-        (listView as ListView).adapter = adapter
+        if(resultCode == Activity.RESULT_CANCELED){
+
+        } else if(resultCode == Activity.RESULT_OK){
+            val name = data.extras.getString("name")
+            fileList.add(File(this.filesDir.absolutePath + File.separator + "spreadsheets" + File.separator + name))
+            listItems.add(name)
+            (listView as ListView).adapter = adapter
+        }
     }
 
     /**

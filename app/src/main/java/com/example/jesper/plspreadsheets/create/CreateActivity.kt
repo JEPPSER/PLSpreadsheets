@@ -50,9 +50,12 @@ class CreateActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val week = data.extras.getString("week")
-        resultStrings[requestCode] = week
+        if(resultCode == Activity.RESULT_CANCELED){
+
+        } else if(resultCode == Activity.RESULT_OK){
+            val week = data.extras.getString("week")
+            resultStrings[requestCode] = week
+        }
     }
 
 
@@ -85,6 +88,11 @@ class CreateActivity : AppCompatActivity() {
                 finish()
             }
         })
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_CANCELED, Intent())
+        finish()
     }
 
     private fun alertTitle(message : String){

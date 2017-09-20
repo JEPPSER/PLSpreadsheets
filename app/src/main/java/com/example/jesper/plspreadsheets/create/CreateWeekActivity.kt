@@ -53,58 +53,66 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
-        var ex = data.extras.getString("ex")
-        val parts = resultString.split("\n")
-        resultString = ""
-        var i = 0
-        while(i < parts.size){
-            if(parts[i].equals(dayNames[requestCode - 1])){
-                var j = 0
-                while(j < parts.size){
-                    resultString += parts[j] + "\n"
-                    if(j == i){
-                        resultString += ex
+        if(resultCode == Activity.RESULT_CANCELED){
+
+        } else if(resultCode == Activity.RESULT_OK){
+            var ex = data.extras.getString("ex")
+            val parts = resultString.split("\n")
+            resultString = ""
+            var i = 0
+            while(i < parts.size){
+                if(parts[i].equals(dayNames[requestCode - 1])){
+                    var j = 0
+                    while(j < parts.size){
+                        resultString += parts[j] + "\n"
+                        if(j == i){
+                            resultString += ex
+                        }
+                        j++
                     }
-                    j++
+                    break
                 }
-                break
+                i++
             }
-            i++
-        }
 
-        i = 0
-        while(true){
-            if((dayList!!.getChildAt(i) as TextView).text.equals(dayNames[requestCode - 1])){
-                i+=2
-                // update grid layout
-                if(ex.get(ex.length - 1) == '\n'){
-                    ex = ex.substring(0, ex.length - 1)
-                }
-                var exName = TextView(this) // Exercise name
-                exName.text = ex
-                dayList!!.addView(exName, i)
-                var delete = Button(this) // Delete button
-                delete.text = "delete"
-                dayList!!.addView(delete, i + 1)
-
-                var j = 1
-                var counter = 0
-                val temp = resultString.split("\n")
-                // while loop for counting "-"
-                while(temp[j] != dayNames[requestCode - 1]){
-                    if(temp[j].startsWith("-")){
-                        counter++
+            i = 0
+            while(true){
+                if((dayList!!.getChildAt(i) as TextView).text.equals(dayNames[requestCode - 1])){
+                    i+=2
+                    // update grid layout
+                    if(ex.get(ex.length - 1) == '\n'){
+                        ex = ex.substring(0, ex.length - 1)
                     }
-                    j++
-                }
+                    var exName = TextView(this) // Exercise name
+                    exName.text = ex
+                    dayList!!.addView(exName, i)
+                    var delete = Button(this) // Delete button
+                    delete.text = "delete"
+                    dayList!!.addView(delete, i + 1)
 
-                // Delete Button Listener
-                deleteButtonListener(delete, ex, exName)
-                break
+                    var j = 1
+                    var counter = 0
+                    val temp = resultString.split("\n")
+                    // while loop for counting "-"
+                    while(temp[j] != dayNames[requestCode - 1]){
+                        if(temp[j].startsWith("-")){
+                            counter++
+                        }
+                        j++
+                    }
+
+                    // Delete Button Listener
+                    deleteButtonListener(delete, ex, exName)
+                    break
+                }
+                i++
             }
-            i++
         }
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_CANCELED, Intent())
+        finish()
     }
 
     private fun deleteButtonListener(delete : Button, ex : String, exName : TextView){

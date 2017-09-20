@@ -84,10 +84,14 @@ class CreateDayActivity : Activity() {
             result += repList[i].text.toString() + "x" + weightList[i].text.toString() + "\n"
             i++
         }
-        //println(result)
         val resultIntent = Intent()
         resultIntent.putExtra("ex", result)
         setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_CANCELED, Intent())
         finish()
     }
 
