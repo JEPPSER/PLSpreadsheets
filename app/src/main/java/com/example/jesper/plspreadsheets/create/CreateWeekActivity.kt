@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
 import android.widget.GridLayout
@@ -25,8 +26,9 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     var weekText: TextView ?= null
     var dayList: GridLayout ?= null
     var btnList: ArrayList<Button> = ArrayList<Button>()
-    var saveBtn: Button ?= null
+    var saveBtn: Button?= null
     var textViewList = ArrayList<TextView>()
+    var cancelBtn2: Button? = null
 
     var resultString: String = ""
 
@@ -41,6 +43,8 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
         // Get save button
         saveBtn = findViewById(R.id.saveBtn) as Button
 
+        cancelBtn2 = findViewById(R.id.cancelBtn2) as Button
+
         // Get Grid
         dayList = findViewById(R.id.dayList) as GridLayout
         createDays()
@@ -50,6 +54,7 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
         weekText!!.text = resultString.split("\n")[0]
 
         onSaveButtonClicked()
+        onCancelButtonClicked()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -111,6 +116,16 @@ class CreateWeekActivity : AppCompatActivity(), Serializable {
     }
 
     override fun onBackPressed() {
+        cancel()
+    }
+
+    private fun onCancelButtonClicked(){
+        cancelBtn2!!.setOnClickListener(View.OnClickListener{
+            cancel()
+        })
+    }
+
+    private fun cancel(){
         setResult(Activity.RESULT_CANCELED, Intent())
         finish()
     }

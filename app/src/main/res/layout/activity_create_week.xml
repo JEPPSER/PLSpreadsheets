@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:id="@+id/saveBtn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/weekText"
+        android:layout_toLeftOf="@+id/cancelBtn2"
+        android:layout_toStartOf="@+id/cancelBtn2" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,5 +42,14 @@
             android:columnCount="2"
             android:rowCount="7"></GridLayout>
     </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel2"
+        android:id="@+id/cancelBtn2"
+        android:layout_alignBottom="@+id/saveBtn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

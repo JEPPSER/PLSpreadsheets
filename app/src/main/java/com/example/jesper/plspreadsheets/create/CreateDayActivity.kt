@@ -25,11 +25,12 @@ class CreateDayActivity : Activity() {
 
     var grid: GridLayout ?= null
     var setBtn: Button?= null
-    var doneBtn: Button ?= null
+    var doneBtn: Button?= null
     var count: Int = 0
     var repList = ArrayList<EditText>()
     var weightList = ArrayList<EditText>()
     var inputName: EditText ?= null
+    var cancelBtn3: Button ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +47,11 @@ class CreateDayActivity : Activity() {
         setBtn = findViewById<View>(R.id.setBtn) as Button
         doneBtn = findViewById<View>(R.id.doneBtn) as Button
         inputName = findViewById<View>(R.id.inputName) as EditText
+        cancelBtn3 = findViewById<View>(R.id.cancelBtn3) as Button
 
         onSetButtonClicked()
         onDoneButtonClicked()
+        onCancelButtonClicked()
     }
 
     private fun onDoneButtonClicked(){
@@ -91,6 +94,16 @@ class CreateDayActivity : Activity() {
     }
 
     override fun onBackPressed() {
+        cancel()
+    }
+
+    private fun onCancelButtonClicked(){
+        cancelBtn3!!.setOnClickListener(View.OnClickListener{
+            cancel()
+        })
+    }
+
+    private fun cancel(){
         setResult(Activity.RESULT_CANCELED, Intent())
         finish()
     }

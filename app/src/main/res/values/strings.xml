@@ -13,4 +13,7 @@
     <string name="reps">Reps</string>
     <string name="weight">Weight</string>
     <string name="save">save</string>
+    <string name="cancel">cancel</string>
+    <string name="cancel2">cancel</string>
+    <string name="cancel3">cancel</string>
 </resources>

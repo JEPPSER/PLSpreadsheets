@@ -30,6 +30,7 @@ class CreateActivity : AppCompatActivity() {
     private var weekBtn: Button? = null
     private var scrollView: ScrollView? = null
     private var gridLayout: GridLayout? = null
+    private var cancelBtn: Button? = null
 
     val dayNames = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
@@ -44,9 +45,11 @@ class CreateActivity : AppCompatActivity() {
         weekBtn = findViewById(R.id.weekBtn) as Button
         scrollView = findViewById(R.id.scrollView) as ScrollView
         gridLayout = findViewById(R.id.gridLayout) as GridLayout
+        cancelBtn = findViewById(R.id.cancelBtn) as Button
 
         onSaveButtonClicked()
         onWeekButtonClicked()
+        onCancelButtonClicked()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -91,6 +94,16 @@ class CreateActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        cancel()
+    }
+
+    private fun onCancelButtonClicked(){
+        cancelBtn!!.setOnClickListener(View.OnClickListener{
+            cancel()
+        })
+    }
+
+    private fun cancel(){
         setResult(Activity.RESULT_CANCELED, Intent())
         finish()
     }
