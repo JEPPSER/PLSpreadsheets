@@ -124,6 +124,10 @@ class StartActivity : AppCompatActivity() {
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
         if(item.title == "delete"){
             println("delete " + listItems.get(info.id.toInt()))
+            fileList.get(info.id.toInt()).delete()
+            listItems.removeAt(info.id.toInt())
+            fileList.removeAt(info.id.toInt())
+            (listView as ListView).adapter = adapter
         } else if(item.title == "edit"){
             println("edit " + listItems.get(info.id.toInt()))
         }
