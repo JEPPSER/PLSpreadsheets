@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 import com.example.jesper.plspreadsheets.R
+import com.example.jesper.plspreadsheets.R.*
 import com.example.jesper.plspreadsheets.adapters.ExpandableListAdapter
+import com.example.jesper.plspreadsheets.entities.Spreadsheet
+import com.example.jesper.plspreadsheets.math.Calculator
 import com.example.jesper.plspreadsheets.model.SpreadsheetManager
 import java.util.*
 
@@ -25,43 +28,44 @@ class ViewActivity : AppCompatActivity() {
     var inputMax: EditText?= null
     var calcBtn: Button?= null
     var exList: ExpandableListView?= null
+    var calculator = Calculator()
+    var adapter = ExpandableListAdapter(this@ViewActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view)
+        setContentView(layout.activity_view)
 
         // Initialize graphic elements
-        titleText = findViewById(R.id.titleText) as TextView
-        textView = findViewById(R.id.textView) as TextView
-        inputMax = findViewById(R.id.inputMax) as EditText
-        calcBtn = findViewById(R.id.calcBtn) as Button
-        exList = findViewById(R.id.exList) as ExpandableListView
+        titleText = findViewById(id.titleText) as TextView
+        textView = findViewById(id.textView) as TextView
+        inputMax = findViewById(id.inputMax) as EditText
+        calcBtn = findViewById(id.calcBtn) as Button
+        exList = findViewById(id.exList) as ExpandableListView
 
         val sprString = intent.getStringExtra("weeks")
         val manager = SpreadsheetManager()
         val spreadsheet = manager.convertFromString(sprString)
 
-        var adapter = ExpandableListAdapter(this@ViewActivity)
-        var i = 0
-        while(i < spreadsheet.weeks.size){
-            adapter.groupNames.add("Week " + (i + 1))
-            var list = ArrayList<String>()
-            list.add(spreadsheet.weeks[i].toString())
-            adapter.childNames.add(list)
-            i++
-        }
-        exList!!.setAdapter(adapter)
-
         var title = intent.getStringExtra("title")
         title = title.replace(".spr", "")
         titleText!!.text = title
 
-        onCalculateButtonClicked()
+        onCalculateButtonClicked(spreadsheet)
     }
 
-    private fun onCalculateButtonClicked(){
+    private fun onCalculateButtonClicked(spreadsheet : Spreadsheet){
         calcBtn!!.setOnClickListener(View.OnClickListener {
-            println(inputMax!!.text)
+            adapter.groupNames.clear()
+            adapter.childNames.clear()
+            var i = 0
+            while(i < spreadsheet.weeks.size){
+                adapter.groupNames.add("Week " + (i + 1))
+                var list = ArrayList<String>()
+                list.add(spreadsheet.weeks[i].toString(inputMax!!.text.toString()))
+                adapter.childNames.add(list)
+                i++
+            }
+            exList!!.setAdapter(adapter)
         })
     }
 }

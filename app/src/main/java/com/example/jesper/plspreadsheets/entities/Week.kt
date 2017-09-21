@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets.entities
 
+import com.example.jesper.plspreadsheets.math.Calculator
 import java.util.*
 
 /**
@@ -21,6 +22,7 @@ class Week {
     var saturday = Day()
     var sunday = Day()
     var days = ArrayList<Day>()
+    private var calculator = Calculator()
 
     val dayNames: Array<String> = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
@@ -34,17 +36,17 @@ class Week {
         days.add(sunday)
     }
 
-    override fun toString() : String {
+    fun toString(max : String) : String {
         var result = ""
         var j = 0
         while(j < days.size){
             result += dayNames[j] + "\n"
             var k = 0
             while(k < days[j].exercises.size){
-                result += days[j].exercises[k].name + "\n"
+                result += "    " + days[j].exercises[k].name + "\n"
                 var l = 0
                 while(l < days[j].exercises[k].sets.size){
-                    result += days[j].exercises[k].sets[l].reps + "x" + days[j].exercises[k].sets[l].weight + "\n"
+                    result += "        " + days[j].exercises[k].sets[l].reps + "x" + calculator.calculate(days[j].exercises[k].sets[l].weight, max) + "\n"
                     l++
                 }
                 k++
