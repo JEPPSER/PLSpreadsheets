@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ListView
 import com.example.jesper.plspreadsheets.R.layout
 import com.example.jesper.plspreadsheets.create.CreateActivity
+import com.example.jesper.plspreadsheets.view.ViewActivity
 import java.io.File
 import java.util.*
 
@@ -107,7 +108,12 @@ class StartActivity : AppCompatActivity() {
                 while(scan.hasNextLine()){
                     result += scan.nextLine() + "\n"
                 }
-                println(result)
+                //println(result)
+
+                val viewIntent = Intent(this@StartActivity, ViewActivity::class.java)
+                viewIntent.putExtra("weeks", result)
+                viewIntent.putExtra("title", fileList[position].name)
+                startActivity(viewIntent)
             }
         }
     }
