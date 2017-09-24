@@ -18,42 +18,29 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/_1_rep_max"
-        android:id="@+id/textView"
-        android:layout_alignTop="@+id/titleText"
-        android:layout_toLeftOf="@+id/calcBtn"
-        android:layout_toStartOf="@+id/calcBtn" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/inputMax"
-        android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:inputType="number"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calculate"
         android:id="@+id/calcBtn"
-        android:layout_alignBottom="@+id/inputMax"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/exList"
+        android:layout_alignEnd="@+id/exList" />
 
     <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/exList"
         android:choiceMode="multipleChoice"
-        android:layout_below="@+id/inputMax"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/calcBtn"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/set_maxes"
+        android:id="@+id/maxBtn"
+        android:layout_alignTop="@+id/calcBtn"
+        android:layout_toLeftOf="@+id/calcBtn"
+        android:layout_toStartOf="@+id/calcBtn" />
 </RelativeLayout>

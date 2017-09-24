@@ -20,7 +20,10 @@
         <activity
             android:name=".create.CreateDayActivity"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".view.ViewActivity"></activity>
+        <activity android:name=".view.ViewActivity" />
+        <activity
+            android:name=".view.MaxActivity"
+            android:theme="@style/AppTheme.CustomTheme" />
     </application>
 
 </manifest>

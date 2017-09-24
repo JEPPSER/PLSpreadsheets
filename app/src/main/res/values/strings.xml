@@ -18,4 +18,6 @@
     <string name="cancel3">cancel</string>
     <string name="_1_rep_max">1 Rep Max</string>
     <string name="calculate">calculate</string>
+    <string name="set_maxes">set maxes</string>
+    <string name="done_2">done</string>
 </resources>
