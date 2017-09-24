@@ -35,7 +35,7 @@ class ExpandableListAdapter(context: Context) : BaseExpandableListAdapter() {
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, view: View?, parent: ViewGroup?): View {
         val txtView = TextView(context)
         txtView.text = groupNames[groupPosition]
-        txtView.textSize = 22F
+        txtView.textSize = 25F
         return txtView
     }
 
@@ -54,6 +54,7 @@ class ExpandableListAdapter(context: Context) : BaseExpandableListAdapter() {
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val txtView = TextView(context)
         txtView.text = childNames[groupPosition][childPosition]
+        txtView.textSize = 20F
         return txtView
     }
 
