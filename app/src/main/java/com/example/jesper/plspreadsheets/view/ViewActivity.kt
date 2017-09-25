@@ -1,5 +1,6 @@
 package com.example.jesper.plspreadsheets.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.example.jesper.plspreadsheets.create.CreateActivity
 import com.example.jesper.plspreadsheets.entities.Spreadsheet
 import com.example.jesper.plspreadsheets.math.Calculator
 import com.example.jesper.plspreadsheets.model.SpreadsheetManager
+import java.io.File
 import java.util.*
 
 /**
@@ -33,6 +35,7 @@ class ViewActivity : AppCompatActivity() {
     var calculator = Calculator()
     var adapter = ExpandableListAdapter(this@ViewActivity)
     var spreadsheet: Spreadsheet ?= null
+    var maxList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,16 @@ class ViewActivity : AppCompatActivity() {
             }
             exString += list[list.size - 1]
             intent.putExtra("exercises", exString)
+            var maxes = ""
+            i = 0
+            while(i < maxList.size - 1){
+                maxes += maxList[i] + ","
+                i++
+            }
+            if(maxList.size > 0){
+                maxes += maxList[maxList.size - 1]
+            }
+            intent.putExtra("maxes", maxes)
             startActivityForResult(intent, 1)
         })
     }
@@ -95,11 +108,27 @@ class ViewActivity : AppCompatActivity() {
             while(i < spreadsheet.weeks.size){
                 adapter.groupNames.add("Week " + (i + 1))
                 var list = ArrayList<String>()
-                //list.add(spreadsheet.weeks[i].toString(inputMax!!.text.toString()))
+                list.add(spreadsheet.weeks[i].toString(maxList))
                 adapter.childNames.add(list)
                 i++
             }
             exList!!.setAdapter(adapter)
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        if(resultCode == Activity.RESULT_CANCELED){
+
+        } else if(resultCode == Activity.RESULT_OK){
+            var result = data.extras.getString("maxes")
+            var parts = result.split(",")
+            maxList.clear()
+            var i = 0
+            while(i < parts.size){
+                maxList.add(parts[i])
+                println(parts[i])
+                i++
+            }
+        }
     }
 }

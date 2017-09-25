@@ -36,7 +36,7 @@ class Week {
         days.add(sunday)
     }
 
-    fun toString(max : String) : String {
+    fun toString(maxes : ArrayList<String>) : String {
         var result = ""
         var j = 0
         while(j < days.size){
@@ -46,6 +46,13 @@ class Week {
                 result += "    " + days[j].exercises[k].name + "\n"
                 var l = 0
                 while(l < days[j].exercises[k].sets.size){
+                    var max = "0"
+                    if(maxes.size > 0){
+                        max = maxes[k].split(": ")[1]
+                    }
+                    if(max == ""){
+                        max = "0"
+                    }
                     result += "        " + days[j].exercises[k].sets[l].reps + "x" + calculator.calculate(days[j].exercises[k].sets[l].weight, max) + "\n"
                     l++
                 }
