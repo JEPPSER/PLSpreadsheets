@@ -73,9 +73,16 @@ class StartActivity : AppCompatActivity() {
 
         } else if(resultCode == Activity.RESULT_OK){
             val name = data.extras.getString("name")
+            val old = data.extras.getString("old")
             fileList.add(File(this.filesDir.absolutePath + File.separator + "spreadsheets" + File.separator + name))
             listItems.add(name)
             (listView as ListView).adapter = adapter
+            if(old != null){
+                val index = listItems.indexOf(old)
+                listItems.removeAt(index)
+                fileList.removeAt(index)
+                (listView as ListView).adapter = adapter
+            }
         }
     }
 
@@ -108,7 +115,6 @@ class StartActivity : AppCompatActivity() {
                 while(scan.hasNextLine()){
                     result += scan.nextLine() + "\n"
                 }
-                //println(result)
 
                 val viewIntent = Intent(this@StartActivity, ViewActivity::class.java)
                 viewIntent.putExtra("weeks", result)
@@ -129,13 +135,14 @@ class StartActivity : AppCompatActivity() {
         super.onContextItemSelected(item)
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
         if(item.title == "delete"){
-            println("delete " + listItems.get(info.id.toInt()))
             fileList.get(info.id.toInt()).delete()
             listItems.removeAt(info.id.toInt())
             fileList.removeAt(info.id.toInt())
             (listView as ListView).adapter = adapter
         } else if(item.title == "edit"){
-            println("edit " + listItems.get(info.id.toInt()))
+            val create = Intent(this@StartActivity, CreateActivity::class.java)
+            create.putExtra("spreadsheet", listItems.get(info.id.toInt()))
+            startActivityForResult(create, 1)
         }
         return true
     }

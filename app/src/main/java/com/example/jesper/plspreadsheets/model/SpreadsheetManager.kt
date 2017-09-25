@@ -28,9 +28,6 @@ class SpreadsheetManager {
         val parts = sprString.split("\n")
         var i = 0
         while(i < parts.size - 1){
-            if(parts[i] == "" || parts[i].get(0).isWhitespace()){
-                i++
-            }
             if(parts[i].startsWith("[Week")){
                 val week = Week()
                 var dayIndex = 0
@@ -66,6 +63,8 @@ class SpreadsheetManager {
                         break
                     }
                 }
+            } else {
+                i++
             }
         }
         return spreadsheet

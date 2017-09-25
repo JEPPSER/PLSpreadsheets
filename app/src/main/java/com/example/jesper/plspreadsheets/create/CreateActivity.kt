@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.GridLayout
-import android.widget.ScrollView
+import android.widget.*
 import com.example.jesper.plspreadsheets.R
+import com.example.jesper.plspreadsheets.model.SpreadsheetManager
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -31,6 +29,8 @@ class CreateActivity : AppCompatActivity() {
     private var scrollView: ScrollView? = null
     private var gridLayout: GridLayout? = null
     private var cancelBtn: Button? = null
+    private var file: File ?= null
+    private var old: String ?= null
 
     val dayNames = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
@@ -46,6 +46,10 @@ class CreateActivity : AppCompatActivity() {
         scrollView = findViewById(R.id.scrollView) as ScrollView
         gridLayout = findViewById(R.id.gridLayout) as GridLayout
         cancelBtn = findViewById(R.id.cancelBtn) as Button
+
+        if(intent.extras != null){
+            loadSpreadsheet()
+        }
 
         onSaveButtonClicked()
         onWeekButtonClicked()
@@ -68,6 +72,9 @@ class CreateActivity : AppCompatActivity() {
      */
     private fun onSaveButtonClicked(){
         saveBtn!!.setOnClickListener(View.OnClickListener {
+            if(file!!.exists()){
+                file!!.delete()
+            }
             val file = this.filesDir
             val dir = File(file.absolutePath + "/spreadsheets")
 
@@ -87,6 +94,7 @@ class CreateActivity : AppCompatActivity() {
                 bufferedWriter.close()
                 val resultIntent = Intent()
                 resultIntent.putExtra("name", titleText!!.text.toString() + ".spr")
+                resultIntent.putExtra("old", old)
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
             }
@@ -141,7 +149,6 @@ class CreateActivity : AppCompatActivity() {
     }
 
     private fun deleteWeek(delete : Button, weekBtn : Button){
-        println(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
         resultStrings.remove(resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
         gridLayout!!.removeView(delete)
         gridLayout!!.removeView(weekBtn)
@@ -160,7 +167,6 @@ class CreateActivity : AppCompatActivity() {
      */
     private fun onWeekButtonClicked(){
         weekBtn!!.setOnClickListener(View.OnClickListener({
-
             val weekBtn = Button(this)
             weekBtn.text = "Week " + (resultStrings.size + 1)
             val count = resultStrings.size + 1
@@ -196,5 +202,45 @@ class CreateActivity : AppCompatActivity() {
                 j++
             }
         }))
+    }
+
+    private fun loadSpreadsheet(){
+        val title = intent.extras.getString("spreadsheet")
+        old = title
+        titleText!!.setText(title.replace(".spr", ""), TextView.BufferType.EDITABLE)
+        file = File(this.filesDir.absolutePath + File.separator + "spreadsheets" + File.separator + title)
+        val scan = Scanner(file)
+        var str = ""
+        while(scan.hasNextLine()){
+            str += scan.nextLine() + "\n"
+        }
+        val manager = SpreadsheetManager()
+        val spreadsheet = manager.convertFromString(str)
+
+        val parts = str.split("[W")
+
+        var i = 0
+        while(i < spreadsheet.weeks.size){
+            resultStrings.add("[W" + parts[i + 1])
+            val weekBtn = Button(this)
+            weekBtn.text = "Week " + (i + 1)
+            val deleteBtn = Button(this)
+            deleteBtn.text = "Delete"
+            gridLayout!!.addView(weekBtn)
+            gridLayout!!.addView(deleteBtn)
+
+            // Add listener to new week button
+            weekBtn.setOnClickListener(View.OnClickListener {
+                val create: Intent = Intent(this@CreateActivity, CreateWeekActivity::class.java)
+                create.putExtra("week", resultStrings[gridLayout!!.indexOfChild(weekBtn) / 2])
+                startActivityForResult(create, gridLayout!!.indexOfChild(weekBtn) / 2)
+            })
+
+            // Add listener to new delete button
+            deleteBtn.setOnClickListener(View.OnClickListener {
+                alertWeek(deleteBtn, weekBtn)
+            })
+            i++
+        }
     }
 }
