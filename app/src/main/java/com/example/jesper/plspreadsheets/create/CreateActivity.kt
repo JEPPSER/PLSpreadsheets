@@ -102,12 +102,12 @@ class CreateActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        cancel()
+        alertCancel()
     }
 
     private fun onCancelButtonClicked(){
         cancelBtn!!.setOnClickListener(View.OnClickListener{
-            cancel()
+            alertCancel()
         })
     }
 
@@ -123,6 +123,25 @@ class CreateActivity : AppCompatActivity() {
 
         builder1.setPositiveButton(
                 "Ok"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
+    private fun alertCancel(){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage("Do you want to cancel without saving?")
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Yes"
+        ) { dialog, id ->
+            cancel()
+            dialog.cancel() }
+
+        builder1.setNegativeButton(
+                "No"
         ) { dialog, id -> dialog.cancel() }
 
         val alert11 = builder1.create()

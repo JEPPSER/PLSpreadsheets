@@ -115,18 +115,37 @@ class CreateWeekActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        cancel()
+        alertCancel()
     }
 
     private fun onCancelButtonClicked(){
         cancelBtn2!!.setOnClickListener(View.OnClickListener{
-            cancel()
+            alertCancel()
         })
     }
 
     private fun cancel(){
         setResult(Activity.RESULT_CANCELED, Intent())
         finish()
+    }
+
+    private fun alertCancel(){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage("Do you want to cancel without saving?")
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Yes"
+        ) { dialog, id ->
+            cancel()
+            dialog.cancel() }
+
+        builder1.setNegativeButton(
+                "No"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
     }
 
     private fun deleteButtonListener(delete : Button, ex : String, exName : TextView){
