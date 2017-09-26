@@ -3,6 +3,7 @@ package com.example.jesper.plspreadsheets
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.ContextMenu
 import android.view.MenuItem
@@ -55,6 +56,25 @@ class StartActivity : AppCompatActivity() {
         getSpreadsheets()
         addListListener()
         onNewButtonClicked()
+    }
+
+    private fun alertDelete(index : Int){
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage("Do you want to delete " + listItems[index] + "?")
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+                "Yes"
+        ) { dialog, id ->
+            delete(index)
+            dialog.cancel() }
+
+        builder1.setNegativeButton(
+                "No"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
     }
 
     /**
@@ -135,16 +155,20 @@ class StartActivity : AppCompatActivity() {
         super.onContextItemSelected(item)
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
         if(item.title == "delete"){
-            fileList.get(info.id.toInt()).delete()
-            listItems.removeAt(info.id.toInt())
-            fileList.removeAt(info.id.toInt())
-            (listView as ListView).adapter = adapter
+            alertDelete(info.id.toInt())
         } else if(item.title == "edit"){
             val create = Intent(this@StartActivity, CreateActivity::class.java)
             create.putExtra("spreadsheet", listItems.get(info.id.toInt()))
             startActivityForResult(create, 1)
         }
         return true
+    }
+
+    private fun delete(index : Int){
+        fileList.get(index).delete()
+        listItems.removeAt(index)
+        fileList.removeAt(index)
+        (listView as ListView).adapter = adapter
     }
 }
 
