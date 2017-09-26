@@ -39,7 +39,7 @@ class StartActivity : AppCompatActivity() {
         setContentView(layout.activity_start)
 
         val file = this.filesDir
-        val dir = File(file.absolutePath + "/spreadsheets")
+        val dir = File(file.absolutePath + File.separator + "spreadsheets")
         if(!dir.exists()){
             dir.mkdirs()
         }

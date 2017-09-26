@@ -1,3 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-core-utils-26.0.0-alpha1_5cd30258f72e273b5847557369162d7bf0c04efd.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\.gradle\caches\modules-2\files-2.1\org.jetbrains\annotations\13.0\919f0dfe192fb4e063e7dacadee7f8bb9a2672a9\annotations-13.0.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="919f0dfe192fb4e063e7dacadee7f8bb9a2672a9">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\annotations-13.0_e09d8ac2d0b8213e2e49ce39db61f4ad3d38db40.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-animated-vector-drawable-26.0.0-alpha1_6ffeb3202253c4cbdcd9210116213f7b5ead45df.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-fragment\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-fragment-26.0.0-alpha1_58eb731aa757dcb3c78539d6485a7c177f588458.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\1.1.4-2\fec983b2608a8a91a1b87dba18d247d692cf6b51\kotlin-stdlib-1.1.4-2.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="fec983b2608a8a91a1b87dba18d247d692cf6b51">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\kotlin-stdlib-1.1.4-2_a7d7ded033156ad67804c09a5c9189d025f4e64a.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-v4\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-v4-26.0.0-alpha1_67a3fe8c5b3956ddb6848742592757c59c23e7f7.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\support-annotations-26.0.0-alpha1_044d149e6e15381bc73a7994c73076dc12698556.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-core-ui-26.0.0-alpha1_4347300e29efd505a90d2490d759b7d129e6516f.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-vector-drawable-26.0.0-alpha1_9659da8daecbf4638af7844bc9a7b40f11098990.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-appcompat-v7-26.0.0-alpha1_c8d30aad976a36c288ff75d048cba963c4f76736.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-compat\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-compat-26.0.0-alpha1_1df77434146ac178d3072fcc39196f15c04e2241.jar" />
+    </item>
+    <item
+        jar="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        revision="26.0.0"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="C:\Users\JeSpEr\AndroidStudioProjects\PLSpreadsheets\app\build\intermediates\pre-dexed\release\com.android.support-support-media-compat-26.0.0-alpha1_01b2a4fdd411209264639b42152cc834f84bea53.jar" />
+    </item>
+
+</items>

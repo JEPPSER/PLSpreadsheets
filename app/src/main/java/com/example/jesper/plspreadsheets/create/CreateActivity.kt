@@ -72,11 +72,11 @@ class CreateActivity : AppCompatActivity() {
      */
     private fun onSaveButtonClicked(){
         saveBtn!!.setOnClickListener(View.OnClickListener {
-            if(file!!.exists()){
+            if(file != null && file!!.exists()){
                 file!!.delete()
             }
             val file = this.filesDir
-            val dir = File(file.absolutePath + "/spreadsheets")
+            val dir = File(file.absolutePath + File.separator + "spreadsheets")
 
             if(titleText!!.text.toString() == ""){
                 alertTitle("No title has been given.")
